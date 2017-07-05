@@ -9,37 +9,6 @@ services:
             - 80:80
         restart: always
 
-    sabnzbd:
-        image: linuxserver/sabnzbd:latest
-        container_name: sabnzbd
-        volumes:
-            - /data_directory_path/config/sabnzbd:/config
-            - /data_directory_path/Downloads/complete:/downloads
-            - /data_directory_path/Downloads/incomplete:/incomplete-downloads
-        ports:
-            - 8080:8080
-        env_file: uidgid.env
-        environment:
-            - EDGE=1
-            - VIRTUAL_HOST=sabnzbd.HOSTNAME.com
-            - VIRTUAL_PORT=8080
-        restart: always
-
-    couchpotato:
-        image: linuxserver/couchpotato:latest
-        container_name: couchpotato
-        volumes:
-            - /data_directory_path/config/couchpotato:/config
-            - /data_directory_path/Downloads/complete:/downloads
-            - /data_directory_path/Movies:/movies
-        ports:
-            - 5050:5050
-        env_file: uidgid.env
-        environment:
-            - VIRTUAL_HOST=couchpotato.HOSTNAME.com
-            - VIRTUAL_PORT=5050
-        restart: always
-
     plex:
         container_name: plex
         image: plexinc/pms-docker
