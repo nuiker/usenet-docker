@@ -1,7 +1,7 @@
 version: '2'
 services:
     nginx-proxy:
-        image: jwilder/nginx-proxy:latest
+        image: theit8514/nginx-proxy-subdirectory:latest
         container_name: nginx-proxy
         volumes:
             - /var/run/docker.sock:/tmp/docker.sock:ro
@@ -45,7 +45,7 @@ services:
             - 8989:8989
         env_file: uidgid.env
         environment:
-            - VIRTUAL_HOST=sonarr.HOSTNAME.com
+            - NGINX_PROXY_SUBDIRECTORY=sonarr
             - VIRTUAL_PORT=8989
         restart: always
 
@@ -60,7 +60,7 @@ services:
             - 8181:8181
         env_file: uidgid.env
         environment:
-            - VIRTUAL_HOST=plexpy.HOSTNAME.com
+            - NGINX_PROXY_SUBDIRECTORY=plexpy
             - VIRTUAL_PORT=8181
         restart: always
 
@@ -75,7 +75,7 @@ services:
             - 5075:5075
         env_file: uidgid.env
         environment:
-            - VIRTUAL_HOST=nzbhydra.HOSTNAME.com
+            - NGINX_PROXY_SUBDIRECTORY=nzbhydra
             - VIRTUAL_PORT=5075
         restart: always
 
@@ -87,7 +87,7 @@ services:
             - /etc/localtime:/etc/localtime:ro
         env_file: uidgid.env
         environment:
-            - VIRTUAL_HOST=muximux.HOSTNAME.com
+            - NGINX_PROXY_SUBDIRECTORY=muximux
         restart: always
 
     radarr:
@@ -102,7 +102,7 @@ services:
             - 7878:7878
         env_file: uidgid.env
         environment:
-            - VIRTUAL_HOST=radarr.HOSTNAME.com
+            - NGINX_PROXY_SUBDIRECTORY=radarr
             - VIRTUAL_PORT=7878
         restart: always
 
@@ -116,7 +116,7 @@ services:
             - 3579:3579
         env_file: uidgid.env
         environment:
-            - VIRTUAL_HOST=ombi.HOSTNAME.com
+            - NGINX_PROXY_SUBDIRECTORY=ombi
             - VIRTUAL_PORT=3579
         restart: always
 
@@ -131,6 +131,6 @@ services:
             - 6789:6789
         env_file: uidgid.env
         environment:
-            - VIRTUAL_HOST=nzbget.HOSTNAME.com
+            - NGINX_PROXY_SUBDIRECTORY=nzbget
             - VIRTUAL_PORT=6789
         restart: always
