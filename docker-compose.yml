@@ -10,9 +10,12 @@ services:
         restart: always
 
     plex:
-        container_name: plex
         image: plexinc/pms-docker
-        restart: unless-stopped
+        container_name: plex
+        volumes:
+            - <config_directory>/config/plex:/config
+            - <path/to/transcode/temp>:/transcode
+            - <path/to/media>:/data
         ports:
             - 32400:32400/tcp
             - 3005:3005/tcp
@@ -27,17 +30,14 @@ services:
             - TZ=<timezone>
             - PLEX_CLAIM=<claimToken>
             - ADVERTISE_IP=http://<hostIPAddress>:32400/
-        hostname: <hostname>
-        volumes:
-        - <path/to/plex/database>:/config
-        - <path/to/transcode/temp>:/transcode
-        - <path/to/media>:/data
+        hostname: <hostname> 
+        restart: unless-stopped
 
     sonarr:
         image: linuxserver/sonarr
         container_name: sonarr
         volumes:
-            - /data_directory_path/config/sonarr:/config
+            - <config_directory>/config/sonarr:/config
             - /etc/localtime:/etc/localtime:ro
             - /data_directory_path/TV:/tv
             - /data_directory_path/Downloads/complete:/downloads
@@ -46,14 +46,13 @@ services:
         env_file: uidgid.env
         environment:
             - NGINX_PROXY_SUBDIRECTORY=sonarr
-            - VIRTUAL_PORT=8989
-        restart: always
+        restart:  unless-stopped
 
     plexpy:
         image: linuxserver/plexpy
         container_name: plexpy
         volumes:
-            - /data_directory_path/config/plexpy:/config
+            - <config_directory>/config/plexpy:/config
             - /etc/localtime:/etc/localtime:ro
             - /data_directory_path/config/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
         ports:
@@ -61,14 +60,13 @@ services:
         env_file: uidgid.env
         environment:
             - NGINX_PROXY_SUBDIRECTORY=plexpy
-            - VIRTUAL_PORT=8181
-        restart: always
+        restart:  unless-stopped
 
     nzbhydra:
         image: linuxserver/hydra
         container_name: nzbhydra
         volumes:
-            - /data_directory_path/config/nzbhydra:/config
+            - <config_directory>/config/nzbhydra:/config
             - /data_directory_path/Downloads:/downloads
             - /etc/localtime:/etc/localtime:ro
         ports:
@@ -76,25 +74,24 @@ services:
         env_file: uidgid.env
         environment:
             - NGINX_PROXY_SUBDIRECTORY=nzbhydra
-            - VIRTUAL_PORT=5075
-        restart: always
+        restart:  unless-stopped
 
     muximux:
         image: linuxserver/muximux
         container_name: muximux
         volumes:
-            - /data_directory_path/config/muximux:/config
+            - <config_directory>/config/muximux:/config
             - /etc/localtime:/etc/localtime:ro
         env_file: uidgid.env
         environment:
             - NGINX_PROXY_SUBDIRECTORY=muximux
-        restart: always
+        restart: unless-stopped
 
     radarr:
         image: linuxserver/radarr
         container_name: radarr
         volumes:
-            - /data_directory_path/config/radarr:/config
+            - <config_directory>/config/radarr:/config
             - /data_directory_path/Movies:/movies
             - /data_directory_path/Downloads/complete:/downloads
             - /etc/localtime:/etc/localtime:ro
@@ -104,33 +101,31 @@ services:
         environment:
             - NGINX_PROXY_SUBDIRECTORY=radarr
             - VIRTUAL_PORT=7878
-        restart: always
+        restart: unless-stopped
 
     ombi:
         image: linuxserver/ombi
         container_name: ombi
         volumes:
-            - /data_directory_path/config/ombi:/config
+            - <config_directory>/config/ombi:/config
             - /etc/localtime:/etc/localtime:ro
         ports:
             - 3579:3579
         env_file: uidgid.env
         environment:
             - NGINX_PROXY_SUBDIRECTORY=ombi
-            - VIRTUAL_PORT=3579
-        restart: always
+        restart: unless-stopped
 
     nzbget:
         image: linuxserver/nzbget
         container_name: nzbget
         volumes:
-            - /data_directory_path/config/nzbget:/config
-            - /data_directory_path/Downloads/complete:/complete
+            - <config_directory>/config/nzbget:/config
+            - <usenet_download_dir>/Downloads/complete:/complete
             - /data_directory_path/Downloads:/downloads
         ports:
             - 6789:6789
         env_file: uidgid.env
         environment:
             - NGINX_PROXY_SUBDIRECTORY=nzbget
-            - VIRTUAL_PORT=6789
-        restart: always
+        restart: unless-stopped
