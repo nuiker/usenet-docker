@@ -13,9 +13,10 @@ services:
         image: plexinc/pms-docker
         container_name: plex
         volumes:
-            - <config_directory>/config/plex:/config
-            - <path/to/transcode/temp>:/transcode
-            - <path/to/media>:/data
+            - /home/usenet/config/plex:/config
+            - /storage/transcodes>:/transcode
+            - /storage/tvshows:/data/tvshows
+            - /storage/movies:/date/movies
         ports:
             - 32400:32400/tcp
             - 3005:3005/tcp
@@ -27,20 +28,22 @@ services:
             - 32413:32413/udp
             - 32414:32414/udp
         environment:
-            - TZ=<timezone>
-            - PLEX_CLAIM=<claimToken>
-            - ADVERTISE_IP=http://<hostIPAddress>:32400/
-        hostname: <hostname> 
+            - TZ=America/New_York
+            - PLEX_CLAIM=CLAIM-568MKGQUNQYZDQMA95NN
+            - ADVERTISE_IP=http://192.168.1.41:32400/
+            - PLEX_UID=200
+            - PLEX_GID=200
+        hostname: PlexServer
         restart: unless-stopped
 
     sonarr:
         image: linuxserver/sonarr
         container_name: sonarr
         volumes:
-            - <config_directory>/config/sonarr:/config
+            - /home/usenet/config/sonarr:/config
             - /etc/localtime:/etc/localtime:ro
-            - /data_directory_path/TV:/tv
-            - /data_directory_path/Downloads/complete:/downloads
+            - /storage/tvshows:/tv
+            - /storage/downloads/usenet/tv:/downloads
         ports:
             - 8989:8989
         env_file: uidgid.env
@@ -52,9 +55,9 @@ services:
         image: linuxserver/plexpy
         container_name: plexpy
         volumes:
-            - <config_directory>/config/plexpy:/config
+            - /home/usenet/config/plexpy:/config
             - /etc/localtime:/etc/localtime:ro
-            - <config_directory>/config/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
+            - /home/usenet/config/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
         ports:
             - 8181:8181
         env_file: uidgid.env
@@ -66,8 +69,8 @@ services:
         image: linuxserver/hydra
         container_name: nzbhydra
         volumes:
-            - <config_directory>/config/nzbhydra:/config
-            - /data_directory_path/Downloads:/downloads
+            - /home/usenet/config/nzbhydra:/config
+            - /storage/downloads/usenet:/downloads
             - /etc/localtime:/etc/localtime:ro
         ports:
             - 5075:5075
@@ -80,7 +83,7 @@ services:
         image: linuxserver/muximux
         container_name: muximux
         volumes:
-            - <config_directory>/config/muximux:/config
+            - /home/usenet/config/muximux:/config
             - /etc/localtime:/etc/localtime:ro
         env_file: uidgid.env
         environment:
@@ -91,9 +94,9 @@ services:
         image: linuxserver/radarr
         container_name: radarr
         volumes:
-            - <config_directory>/config/radarr:/config
-            - /data_directory_path/Movies:/movies
-            - /data_directory_path/Downloads/complete:/downloads
+            - /home/usenet/config/radarr:/config
+            - /storage/movies:/movies
+            - /storage/downloads/usenet/movies:/downloads
             - /etc/localtime:/etc/localtime:ro
         ports:
             - 7878:7878
@@ -107,7 +110,7 @@ services:
         image: linuxserver/ombi
         container_name: ombi
         volumes:
-            - <config_directory>/config/ombi:/config
+            - /home/usenet/config/ombi:/config
             - /etc/localtime:/etc/localtime:ro
         ports:
             - 3579:3579
@@ -120,9 +123,9 @@ services:
         image: linuxserver/nzbget
         container_name: nzbget
         volumes:
-            - <config_directory>/config/nzbget:/config
-            - <usenet_download_dir>/Downloads/complete:/complete
-            - /data_directory_path/Downloads:/downloads
+            - /home/usenet/config/nzbget:/config
+            - /storage/downloads/usenet:/complete
+            - /storage/downloads/usenet/incomplete:/downloads
         ports:
             - 6789:6789
         env_file: uidgid.env
