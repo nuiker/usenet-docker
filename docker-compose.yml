@@ -134,3 +134,13 @@ services:
         environment:
             - NGINX_PROXY_SUBDIRECTORY=nzbget
         restart: unless-stopped
+        
+    portainer:
+        image: portainer/portainer
+        container_name: portainer
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - <config_directory>/config/portainer:/data
+        ports:
+            - 9000:9000
+        restart: unless-stopped
