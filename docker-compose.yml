@@ -54,7 +54,7 @@ services:
         volumes:
             - <config_directory>/config/plexpy:/config
             - /etc/localtime:/etc/localtime:ro
-            - /data_directory_path/config/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
+            - <config_directory>/config/plex/Library/Application Support/Plex Media Server/Logs:/logs:ro
         ports:
             - 8181:8181
         env_file: uidgid.env
