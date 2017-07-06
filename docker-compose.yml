@@ -1,14 +1,17 @@
 version: '2'
 services:
-    nginx-proxy:
-        image: theit8514/nginx-proxy-subdirectory:latest
-        container_name: nginx-proxy
+    traefik:
+        image: traefik
+        command: --web --docker --docker.domain=docker.localhost --docker.watch --logLevel=DEBUG --entryPoints='Name:http Address::80 Redirect.EntryPoint:https' --entryPoints='Name:https Address::443 TLS:tls/wildcard.bleemeo.work.crt,tls/wildcard.bleemeo.work.key' --defaultEntryPoints='http,https' --accessLogsFile='log/access.log'
+        network_mode: "host"
         volumes:
-            - /var/run/docker.sock:/tmp/docker.sock:ro
-        ports:
-            - 80:80
-        restart: always
-
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /dev/null:/traefik.toml
+         ports:
+            - "80:80"
+            - "8080:8080"
+         restart: unless-stopped
+         
     plex:
         image: plexinc/pms-docker
         container_name: plex
@@ -44,8 +47,10 @@ services:
         ports:
             - 8989:8989
         env_file: uidgid.env
-        environment:
-            - NGINX_PROXY_SUBDIRECTORY=sonarr
+        labels:
+            - traefik.backend=sonarr
+            - traefik.frontend.rule=Host:ci.bleemeo.work
+            - traefik.port=8989
         restart:  unless-stopped
 
     plexpy:
