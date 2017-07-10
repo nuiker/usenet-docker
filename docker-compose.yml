@@ -128,6 +128,7 @@ services:
             - <config_directory>/config/nzbget:/config
             - <usenet_download_dir>/Downloads/complete:/complete
             - /data_directory_path/Downloads:/downloads
+            - <logs_dir>:/logs
         ports:
             - 6789:6789
         env_file: uidgid.env
