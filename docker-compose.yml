@@ -1,14 +1,5 @@
 version: '2'
-services:
-    nginx-proxy:
-        image: theit8514/nginx-proxy-subdirectory:latest
-        container_name: nginx-proxy
-        volumes:
-            - /var/run/docker.sock:/tmp/docker.sock:ro
-        ports:
-            - 80:80
-        restart: always
-        
+services:     
     nzbget:
         image: linuxserver/nzbget
         container_name: nzbget
@@ -19,8 +10,6 @@ services:
         ports:
             - 6789:6789
         env_file: uidgid.env
-        environment:
-            - NGINX_PROXY_SUBDIRECTORY=nzbget
         restart: unless-stopped
 
     sonarr:
@@ -34,8 +23,6 @@ services:
         ports:
             - 8989:8989
         env_file: uidgid.env
-        environment:
-            - NGINX_PROXY_SUBDIRECTORY=sonarr
         restart:  unless-stopped
         
     radarr:
@@ -49,9 +36,6 @@ services:
         ports:
             - 7878:7878
         env_file: uidgid.env
-        environment:
-            - NGINX_PROXY_SUBDIRECTORY=radarr
-            - VIRTUAL_PORT=7878
         restart: unless-stopped
         
         
@@ -92,8 +76,6 @@ services:
         ports:
             - 8181:8181
         env_file: uidgid.env
-        environment:
-            - NGINX_PROXY_SUBDIRECTORY=plexpy
         restart:  unless-stopped
 
     nzbhydra:
@@ -106,8 +88,6 @@ services:
         ports:
             - 5075:5075
         env_file: uidgid.env
-        environment:
-            - NGINX_PROXY_SUBDIRECTORY=nzbhydra
         restart:  unless-stopped
 
     muximux:
@@ -117,8 +97,6 @@ services:
             - /home/usenet/config/muximux:/config
             - /etc/localtime:/etc/localtime:ro
         env_file: uidgid.env
-        environment:
-            - NGINX_PROXY_SUBDIRECTORY=muximux
         restart: unless-stopped
 
     ombi:
@@ -130,6 +108,4 @@ services:
         ports:
             - 3579:3579
         env_file: uidgid.env
-        environment:
-            - NGINX_PROXY_SUBDIRECTORY=ombi
         restart: unless-stopped
