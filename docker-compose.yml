@@ -5,7 +5,7 @@ services:
         container_name: nzbget
         volumes:
             - /home/usenet/config/nzbget:/config
-            - /home/usenet/data/nzbget:/downloads
+            - /home/usenet/appdata/nzbget:/downloads
             - /storage/downloads/usenet:/complete
         ports:
             - 6789:6789
