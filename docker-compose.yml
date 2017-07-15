@@ -23,6 +23,8 @@ services:
         ports:
             - 8989:8989
         env_file: uidgid.env
+        depends_on:
+            - nzbget
         restart:  unless-stopped
         
     radarr:
@@ -36,8 +38,21 @@ services:
         ports:
             - 7878:7878
         env_file: uidgid.env
+        depends_on:
+            - nzbget
         restart: unless-stopped
         
+    lazy:
+        image: linuxserver/lazylibrarian
+        container_name: lazy
+        env_file: uidgid.env
+        volumes:
+            - /home/usenet/config/lazy:/config
+            - /storage/downloads/usenet:/downloads
+            - /storage/books:/books
+        depends_on:
+            - nzbget
+        restart: unless-stopped
         
     plex:
         image: plexinc/pms-docker
