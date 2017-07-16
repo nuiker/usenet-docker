@@ -129,3 +129,16 @@ services:
             - 3579:3579
         env_file: uidgid.env
         restart: unless-stopped
+        
+    beets:
+    image: linuxserver/beets
+    container_name: beets
+    hostname: beets
+    environment:
+      - PUID=108
+      - PGID=115
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /.dockerconfig/beets:/config
+      - /media/complete/audio:/downloads
+      - /media/music:/music
