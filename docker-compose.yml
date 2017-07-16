@@ -36,7 +36,7 @@ services:
             - /storage/downloads/usenet:/complete
             - /storage/movies:/movies      
         ports:
-            - 7878:7878
+            - 7878:7878        
         env_file: uidgid.env
         depends_on:
             - nzbget
@@ -45,11 +45,15 @@ services:
     lazy:
         image: linuxserver/lazylibrarian
         container_name: lazy
-        env_file: uidgid.env
         volumes:
             - /home/usenet/config/lazy:/config
-            - /storage/downloads/usenet:/downloads
+            - /storage/downloads/usenet/books:/downloads
             - /storage/books:/books
+        ports:
+            - 5299:5299
+        environment:
+            - TZ=America/New_York
+        env_file: uidgid.env
         depends_on:
             - nzbget
         restart: unless-stopped
@@ -105,15 +109,16 @@ services:
         env_file: uidgid.env
         restart:  unless-stopped
 
-    muximux:
-        image: linuxserver/muximux
-        container_name: muximux
+    organizr:
+        image: lsiocommunity/organizr
+        container_name: organizr
         volumes:
-            - /home/usenet/config/muximux:/config
-            - /etc/localtime:/etc/localtime:ro
+            - /home/usenet/config/organizr:/config
+        ports:
+            - 80:80
         env_file: uidgid.env
-        restart: unless-stopped
-
+        restart:  unless-stopped
+        
     ombi:
         image: linuxserver/ombi
         container_name: ombi
