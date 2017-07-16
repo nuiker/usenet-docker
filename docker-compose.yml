@@ -130,15 +130,25 @@ services:
         env_file: uidgid.env
         restart: unless-stopped
         
+    deluge:
+        image: linuxserver/deluge
+        container_name: deluge
+        volumes:
+            - /home/usenet/config/deulge:/config
+            - /storage/doanloads/torrents:/downloads
+        ports:
+            - "58846:58846"
+            - "8112:8112"    
+        env_file: uidgid.env
+        restart: unless-stopped
+        
     beets:
-    image: linuxserver/beets
-    container_name: beets
-    hostname: beets
-    environment:
-      - PUID=108
-      - PGID=115
+        image: linuxserver/beets
+        container_name: beets
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - /.dockerconfig/beets:/config
-      - /media/complete/audio:/downloads
-      - /media/music:/music
+      - /home/usenet/config/beets:/config
+      - /storage/downloads/usenet/music:/downloads
+      - /storage/music:/music
+      env_file: uidgid.env
+      restart: unless-stopped
