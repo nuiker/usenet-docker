@@ -60,7 +60,7 @@ services:
         container_name: lazy
         volumes:
             - /home/usenet/config/lazy:/config
-            - /storage/downloads/usenet/books:/downloads
+            - /storage/downloads/books:/downloads
             - /storage/books:/books
         ports:
             - 5299:5299
@@ -74,7 +74,7 @@ services:
         container_name: plex
         volumes:
             - /home/usenet/config/plex:/config
-            - /storage/transcodes:/transcode
+            - /home/usenet/appdata/plex/transcodes:/transcode
             - /storage/tvshows:/data/tvshows
             - /storage/movies:/date/movies
         ports:
@@ -113,7 +113,7 @@ services:
         container_name: nzbhydra
         volumes:
             - /home/usenet/config/nzbhydra:/config
-            - /storage/downloads/usenet:/downloads
+            - /storage/downloads:/downloads
             - /etc/localtime:/etc/localtime:ro
         ports:
             - 5075:5075
