@@ -5,8 +5,8 @@ services:
         container_name: nzbget
         volumes:
             - /home/usenet/config/nzbget:/config
-            - /home/usenet/appdata/nzbget:/downloads
-            - /storage/downloads:/complete
+            - /home/usenet/appdata/nzbget:/appdata
+            - /storage/downloads:/downloads
         ports:
             - 6789:6789
         env_file: uidgid.env
@@ -17,8 +17,7 @@ services:
         container_name: deluge
         volumes:
             - /home/usenet/config/deulge:/config
-            - /home/usenet/appdata/deluge:/downloads
-            - /storage/downloads:/complete
+            - /storage/downloads:/downloads
         ports:
             - "58846:58846"
             - "8112:8112"
@@ -31,7 +30,7 @@ services:
         volumes:
             - /home/usenet/config/sonarr:/config
             - /etc/localtime:/etc/localtime:ro
-            - /storage/downloads:/complete
+            - /storage/downloads:/downloads
             - /storage/tvshows:/tv
         ports:
             - 8989:8989
@@ -46,7 +45,7 @@ services:
         volumes:
             - /home/usenet/config/radarr:/config
             - /etc/localtime:/etc/localtime:ro
-            - /storage/downloads:/complete
+            - /storage/downloads:/downloads
             - /storage/movies:/movies      
         ports:
             - 7878:7878        
