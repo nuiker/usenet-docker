@@ -64,8 +64,6 @@ services:
             - /storage/books:/books
         ports:
             - 5299:5299
-        environment:
-            - TZ=America/New_York
         env_file: uidgid.env
         depends_on:
             - nzbget
@@ -143,13 +141,3 @@ services:
         env_file: uidgid.env
         restart: unless-stopped
         
-    beets:
-        image: linuxserver/beets
-        container_name: beets
-        volumes:
-            - /etc/localtime:/etc/localtime:ro
-            - /home/usenet/config/beets:/config
-            - /storage/downloads/usenet/music:/downloads
-            - /storage/music:/music
-        env_file: uidgid.env
-        restart: unless-stopped
