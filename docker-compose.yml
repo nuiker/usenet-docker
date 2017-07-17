@@ -6,9 +6,22 @@ services:
         volumes:
             - /home/usenet/config/nzbget:/config
             - /home/usenet/appdata/nzbget:/downloads
-            - /storage/downloads/usenet:/complete
+            - /storage/downloads:/complete
         ports:
             - 6789:6789
+        env_file: uidgid.env
+        restart: unless-stopped
+        
+    deluge:
+        image: linuxserver/deluge
+        container_name: deluge
+        volumes:
+            - /home/usenet/config/deulge:/config
+            - /home/usenet/appdata/deluge:/downloads
+            - /storage/downloads:/complete
+        ports:
+            - "58846:58846"
+            - "8112:8112"
         env_file: uidgid.env
         restart: unless-stopped
 
@@ -18,7 +31,7 @@ services:
         volumes:
             - /home/usenet/config/sonarr:/config
             - /etc/localtime:/etc/localtime:ro
-            - /storage/downloads/usenet:/complete
+            - /storage/downloads:/complete
             - /storage/tvshows:/tv
         ports:
             - 8989:8989
@@ -33,7 +46,7 @@ services:
         volumes:
             - /home/usenet/config/radarr:/config
             - /etc/localtime:/etc/localtime:ro
-            - /storage/downloads/usenet:/complete
+            - /storage/downloads:/complete
             - /storage/movies:/movies      
         ports:
             - 7878:7878        
@@ -127,18 +140,6 @@ services:
             - /etc/localtime:/etc/localtime:ro
         ports:
             - 3579:3579
-        env_file: uidgid.env
-        restart: unless-stopped
-        
-    deluge:
-        image: linuxserver/deluge
-        container_name: deluge
-        volumes:
-            - /home/usenet/config/deulge:/config
-            - /storage/doanloads/torrents:/downloads
-        ports:
-            - "58846:58846"
-            - "8112:8112"    
         env_file: uidgid.env
         restart: unless-stopped
         
