@@ -75,7 +75,7 @@ services:
             - /home/usenet/config/plex:/config
             - /home/usenet/appdata/plex/transcodes:/transcode
             - /storage/tvshows:/data/tvshows
-            - /storage/movies:/date/movies
+            - /storage/movies:/data/movies
         ports:
             - 32400:32400/tcp
             - 3005:3005/tcp
