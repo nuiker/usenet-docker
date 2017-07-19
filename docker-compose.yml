@@ -119,16 +119,6 @@ services:
         env_file: uidgid.env
         restart:  unless-stopped
 
-    organizr:
-        image: lsiocommunity/organizr
-        container_name: organizr
-        volumes:
-            - /home/usenet/config/organizr:/config
-        ports:
-            - 80:80
-        env_file: uidgid.env
-        restart:  unless-stopped
-        
     ombi:
         image: linuxserver/ombi
         container_name: ombi
